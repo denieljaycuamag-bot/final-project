@@ -1,6 +1,6 @@
 // app/_layout.tsx
 import { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../services/firebase';
@@ -66,7 +66,7 @@ export default function RootLayout() {
         setLoading(false);
       }
     }
-  }, [loading]);
+  }, []);
 
   useEffect(() => {
     if (loading) return;
@@ -99,11 +99,11 @@ export default function RootLayout() {
           <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: '#FEE2E2', justifyContent: 'center', alignItems: 'center', marginBottom: 16 }}>
             <View style={{ width: 8, height: 8, backgroundColor: '#EF4444', borderRadius: 4 }} />
           </View>
-          <View style={{ fontSize: 16, fontWeight: '700', color: '#1A202C', marginBottom: 8 }}>Connection error</View>
-          <View style={{ fontSize: 14, color: '#6B7280', textAlign: 'center', marginBottom: 20 }}>Trying to reconnect...</View>
-          <View style={{ backgroundColor: '#1D9E75', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8 }} onTouchEnd={() => { setAuthError(false); setLoading(true); }}>
-            <View style={{ color: '#fff', fontWeight: '600' }}>Retry</View>
-          </View>
+          <Text style={{ fontSize: 16, fontWeight: '700', color: '#1A202C', marginBottom: 8 }}>Connection error</Text>
+          <Text style={{ fontSize: 14, color: '#6B7280', textAlign: 'center', marginBottom: 20 }}>Trying to reconnect...</Text>
+          <TouchableOpacity style={{ backgroundColor: '#1D9E75', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8 }} onPress={() => { setAuthError(false); setLoading(true); }}>
+            <Text style={{ color: '#fff', fontWeight: '600' }}>Retry</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
