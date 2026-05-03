@@ -13,8 +13,8 @@ import {
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../../services/firebase';
-import { getUserProfile, updateUserProfile, UserProfile } from '../../services/firestoreService';
+import { auth } from '@/services/firebase';
+import { getUserProfile, updateUserProfile, UserProfile } from '@/services/firestoreService';
 
 export default function AccountScreen() {
   const router = useRouter();

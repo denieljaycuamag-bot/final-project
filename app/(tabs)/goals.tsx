@@ -19,7 +19,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../../services/firebase';
+import { auth, db } from '@/services/firebase';
 import {
   saveGoal,
   saveGoalLog,
@@ -27,7 +27,7 @@ import {
   deleteGoalWithLogs as deleteGoal,
   Goal,
   GoalLog,
-} from '../../services/firestoreService';
+} from '@/services/firestoreService';
 
 type GoalLogWithGoal = GoalLog & { goalId: string };
 type GoalSummary = {

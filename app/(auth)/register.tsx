@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
-import { auth, db } from '../../services/firebase';
+import { auth, db } from '@/services/firebase';
 
 const FITNESS_GOALS = ['Lose weight', 'Build muscle', 'Improve stamina', 'Stay active'];
 const { width: SCREEN_WIDTH } = Dimensions.get('window');

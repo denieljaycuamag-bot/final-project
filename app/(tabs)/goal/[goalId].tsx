@@ -17,7 +17,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { auth, db } from '../../../services/firebase';
+import { auth, db } from '@/services/firebase';
 import {
   getGoalById,
   saveGoalLog,
@@ -25,8 +25,8 @@ import {
   updateGoalProgress,
   Goal,
   GoalLog,
-} from '../../../services/firestoreService';
-import { chatWithAI } from '../../../services/openrouter';
+} from '@/services/firestoreService';
+import { chatWithAI } from '@/services/openrouter';
 
 type GoalLogWithId = GoalLog & { id: string };
 

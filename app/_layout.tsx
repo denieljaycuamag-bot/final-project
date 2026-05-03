@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '../services/firebase';
+import { auth } from '@/services/firebase';
 
 export default function RootLayout() {
   const [user, setUser]       = useState<User | null>(null);
