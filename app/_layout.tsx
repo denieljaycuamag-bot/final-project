@@ -1,7 +1,6 @@
 // app/_layout.tsx
 import { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { Slot, useRouter, useSegments } from 'expo-router';
+import { Slot, Redirect, useRouter, useSegments } from 'expo-router';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/services/firebase';
 
@@ -21,10 +20,10 @@ export default function RootLayout() {
       }
     });
 
-    // Fallback timeout — 5 seconds max
+    // Fallback timeout — never block the UI forever
     const timeout = setTimeout(() => {
       if (isMounted) setLoading(false);
-    }, 5000);
+    }, 1500);
 
     return () => {
       isMounted = false;
@@ -46,11 +45,7 @@ export default function RootLayout() {
   }, [user, loading, segments]);
 
   if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F9FAFB' }}>
-        <ActivityIndicator size="large" color="#1D9E75" />
-      </View>
-    );
+    return <Redirect href="/(auth)/login" />;
   }
 
   return <Slot />;
