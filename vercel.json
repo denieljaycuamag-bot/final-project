@@ -4,14 +4,26 @@
   "framework": null,
   "routes": [
     {
-      "src": "^/static/(.*)",
-      "dest": "/static/$1",
+      "src": "^/_expo/static/(.*)",
+      "dest": "/_expo/static/$1",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
-      "src": "^/(?!static/)(.*)$",
+      "src": "^/assets/(.*)$",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "^/(favicon\\.ico|manifest\\.json)$",
+      "dest": "/$1"
+    },
+    {
+      "src": "^/$",
+      "dest": "/login.html"
+    },
+    {
+      "src": "^/(?!_expo/static/|assets/|favicon\\.ico|manifest\\.json)(.*)$",
       "dest": "/index.html"
     }
   ]
