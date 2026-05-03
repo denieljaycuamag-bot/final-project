@@ -15,14 +15,14 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, onSnapshot, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../../services/firebase';
+import { auth, db } from '../../services/firebase';
 import {
   saveNutrition,
   getNutritionToday,
   getWorkoutsThisWeek,
   NutritionEntry,
-} from '../../../services/firestoreService';
-import { chatWithAI, calculateCalories } from './openrouter';
+} from '../../services/firestoreService';
+import { chatWithAI, calculateCalories } from '../../services/openrouter';
 
 const QUICK_FOODS = [
   { food: 'White rice (1 cup)', calories: 206, protein: 4, carbs: 45, fat: 0 },

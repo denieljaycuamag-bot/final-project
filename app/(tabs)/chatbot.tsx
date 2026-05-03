@@ -12,12 +12,12 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { auth } from '../../../services/firebase';
+import { auth } from '../../services/firebase';
 import {
   extractWorkoutFromText,
   chatWithAI,
   calculateCalories,
-} from '../../../services/openrouter';
+} from '../../services/openrouter';
 import {
   saveWorkout,
   getWorkoutsThisWeek,
@@ -27,7 +27,7 @@ import {
   getGoalLogs,
   saveChatMessage,
   getChatMessages,
-} from '../../../services/firestoreService';
+} from '../../services/firestoreService';
 
 interface Message {
   id: string;
