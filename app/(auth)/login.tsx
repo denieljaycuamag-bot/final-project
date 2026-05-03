@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ActivityIndicator, KeyboardAvoidingView, Platform, Alert,
+  ActivityIndicator, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -13,24 +13,26 @@ export default function LoginScreen() {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState('');
 
   const handleLogin = async () => {
+    setError('');
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields.');
+      setError('Please fill in all fields.');
       return;
     }
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password);
-      // _layout.tsx onAuthStateChanged will handle redirect automatically
-    } catch (error: any) {
-      let msg = 'Something went wrong.';
-      if (error.code === 'auth/user-not-found')    msg = 'No account found with this email.';
-      if (error.code === 'auth/wrong-password')    msg = 'Incorrect password.';
-      if (error.code === 'auth/invalid-email')     msg = 'Invalid email address.';
-      if (error.code === 'auth/invalid-credential')msg = 'Wrong email or password.';
-      if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later.';
-      Alert.alert('Login Failed', msg);
+      // _layout.tsx onAuthStateChanged handles redirect automatically
+    } catch (err: any) {
+      let msg = 'Something went wrong. Please try again.';
+      if (err.code === 'auth/user-not-found')     msg = 'No account found with this email.';
+      if (err.code === 'auth/wrong-password')     msg = 'Incorrect password.';
+      if (err.code === 'auth/invalid-email')      msg = 'Invalid email address.';
+      if (err.code === 'auth/invalid-credential') msg = 'Wrong email or password.';
+      if (err.code === 'auth/too-many-requests')  msg = 'Too many attempts. Try again later.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -43,19 +45,29 @@ export default function LoginScreen() {
     >
       <View style={styles.inner}>
 
+        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.logo}>FitAI</Text>
           <Text style={styles.subtitle}>Track smarter. Train better.</Text>
         </View>
 
+        {/* Form */}
         <View style={styles.form}>
+
+          {/* Error message */}
+          {error !== '' && (
+            <View style={styles.errorBox}>
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
+          )}
+
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
             placeholder="you@email.com"
             placeholderTextColor="#9CA3AF"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(t) => { setEmail(t); setError(''); }}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
@@ -67,7 +79,7 @@ export default function LoginScreen() {
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(t) => { setPassword(t); setError(''); }}
             secureTextEntry
           />
 
@@ -84,6 +96,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
@@ -112,6 +125,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
+  errorBox: {
+    backgroundColor: '#FEF2F2',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#FECACA',
+  },
+  errorText:   { color: '#DC2626', fontSize: 13, fontWeight: '500' },
   label:       { fontSize: 13, fontWeight: '600', color: '#374151', marginBottom: 6, marginTop: 12 },
   input: {
     borderWidth: 1,
