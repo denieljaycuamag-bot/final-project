@@ -1,13 +1,11 @@
 // app/_layout.tsx
 import { useEffect, useState } from 'react';
-import { Slot, useRouter, useSegments } from 'expo-router';
+import { Slot } from 'expo-router';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/services/firebase';
 
 export default function RootLayout() {
   const [user, setUser]       = useState<User | null>(null);
-  const router   = useRouter();
-  const segments = useSegments();
 
   useEffect(() => {
     let isMounted = true;
@@ -24,15 +22,10 @@ export default function RootLayout() {
     };
   }, []);
 
-  useEffect(() => {
-    const inAuthGroup = segments[0] === '(auth)';
-
-    if (!user && !inAuthGroup) {
-      router.replace('/(auth)/login');
-    } else if (user && inAuthGroup) {
-      router.replace('/(tabs)/chatbot');
-    }
-  }, [user, segments, router]);
+  // Intentionally do not perform programmatic navigation here.
+  // Route decisions are performed by individual route components
+  // (for example `app/index.tsx` renders the login screen directly),
+  // which avoids navigating before the root navigator mounts on web.
 
   return <Slot />;
 }
