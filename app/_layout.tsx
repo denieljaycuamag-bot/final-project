@@ -12,11 +12,36 @@ export default function RootLayout() {
   const segments = useSegments();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
-    return unsubscribe;
+    let isMounted = true;
+    let timeout: NodeJS.Timeout;
+
+    try {
+      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        if (isMounted) {
+          setUser(firebaseUser);
+          setLoading(false);
+        }
+        if (timeout) clearTimeout(timeout);
+      });
+
+      // Failsafe: stop loading after 5 seconds even if auth doesn't respond
+      timeout = setTimeout(() => {
+        if (isMounted && loading) {
+          setLoading(false);
+        }
+      }, 5000);
+
+      return () => {
+        isMounted = false;
+        unsubscribe();
+        if (timeout) clearTimeout(timeout);
+      };
+    } catch (err) {
+      console.error('Auth error:', err);
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
   }, []);
 
   useEffect(() => {
